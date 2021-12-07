@@ -1,45 +1,81 @@
-f = open('./input/4.txt')
+from typing import Tuple, List
 
-numbers = list(map(int, f.readline().split(',')))
+def loop(x_max: int, y_max: int) -> Tuple[int, int]:
+    """
+    Generate the indices of all points in the [0, x_max] x [0, y_max] plane.
+    :param x_max: the exclusive x-bound.
+    :param y_max: the exclusive y-bound.
+    """
+    # First time working with yield!
+    for y in range(y_max):
+        for x in range(x_max):
+            yield x, y
 
-line = f.readline()
+def bingo(markCard: List[List[bool]], x: int, y: int) -> bool:
+    """
+    Checks if the current mark card has a bingo on it, given
+    the row and column in which to look.
+    :param x: the row in which to look.
+    :param y: the column in which to look.
+    """
+    horizontalCount = 0
+    verticalCount = 0
+    for i in range(5):
+        if markCard[y][i]: horizontalCount += 1
+        if markCard[i][x]: verticalCount += 1
+    return horizontalCount == 5 or verticalCount == 5
 
-cards = []
-numberCard = []
+def score(numberCard: List[List[int]], markCard: List[List[bool]], number: int) -> int:
+    """
+    Calculate the score of the bingo card. I really wanted to do a Python one-liner.
+    :param numberCard: the bingo card with the numbers.
+    :param markCard: the bingo card with the marked off cells.
+    :param number: the current called number.
+    """
+    return number * sum(map(lambda i: 0 if markCard[i[1]][i[0]] else numberCard[i[1]][i[0]], loop(5, 5)))
 
-while line != '':
-    if line == '\n':
-        line = f.readline()
-        continue
+if __name__== '__main__':
+    # Damn, whole main loop and all. It's almost like a real program!
+    
+    f = open('./input/4.txt')
 
-    numberCard.append(list(map(int, line.split())))
+    numbers = list(map(int, f.readline().split(',')))
 
-    if len(numberCard) == 5:
-        markCard = [[False] * 5 for _ in range(5)]
-        cards.append((numberCard.copy(), markCard))
-        numberCard = []
+    row = f.readline()
 
-    line = f.readline()
+    cards = []
+    numberCard = []
 
-for number in numbers:
-    for (numberCard, markCard) in cards:
-        for y in range(5):
-            for x in range(5):
+    while row != '':
+        if row == '\n':
+            row = f.readline()
+            continue
+
+        # Add the row to the number card
+        numberCard.append(list(map(int, row.split())))
+
+        if len(numberCard) == 5:
+            # We've got 5 numbers, the card is complete
+
+            # The mark card is where we keep track of the called numbers of this card
+            markCard = [[False] * 5 for _ in range(5)]
+
+            # We make a copy of the number card to prevent them all pointing to the same list
+            cards.append((numberCard.copy(), markCard))
+            numberCard = []
+
+        row = f.readline()
+
+    for number in numbers:
+        # Call all the numbers one by one
+        for (numberCard, markCard) in cards:
+            # Check the number on every card
+            for x,y in loop(5, 5):
                 if numberCard[y][x] == number:
+                    # Check off the number
                     markCard[y][x] = True
 
-                    horizontalCount = 0
-                    verticalCount = 0
-
-                    for i in range(5):
-                        if markCard[y][i]: horizontalCount += 1
-                        if markCard[i][x]: verticalCount += 1
-
-                    if horizontalCount == 5 or verticalCount == 5:
-                        unmarkedSum = 0
-                        for j in range(5):
-                            for i in range(5):
-                                if not markCard[j][i]: unmarkedSum += numberCard[j][i]
-                        
-                        print(unmarkedSum * number)
+                    if bingo(markCard, x, y):
+                        # We got bingo! Calculate the score.
+                        print(score(numberCard, markCard, number))
                         exit()
