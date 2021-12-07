@@ -21,6 +21,10 @@ for i in range(bits):
     gamma *= 2
     if counters[i] > n / 2: gamma += 1
 
+"""
+No need to keep track of epsilon as well, they're just the bits
+flipped.
+"""
 epsilon = 2**bits - 1 - gamma
 
 print(gamma * epsilon)
