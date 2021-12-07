@@ -1,3 +1,5 @@
+from typing import Counter
+
 f = open('./input/5.txt')
 
 line = f.readline()
@@ -14,29 +16,23 @@ while line != '':
 
     line = f.readline()
 
-overlaps = {}
+overlaps = Counter()
 count = 0
 
-i = 0
-while i < len(points):
-    x1, y1, x2, y2 = points[i]
-    
-    i += 1
-
+for x1, y1, x2, y2 in points:
     x_start = x1
     y_start = y1
     x_dir = (x2 - x1) // max(abs(x2 - x1), 1)
     y_dir = (y2 - y1) // max(abs(y2 - y1), 1)
     length = max(abs(x2 - x1), abs(y2 - y1)) + 1
 
+    # Only difference is that we don't filter out diagonal lines anymore.
+
     for j in range(length):
         x = x_start + j * x_dir
         y = y_start + j * y_dir
 
-        if (x, y) in overlaps:
-            overlaps[(x, y)] += 1
-            if overlaps[(x, y)] == 2: count += 1
+        overlaps[(x, y)] += 1
+        if overlaps[(x, y)] == 2: count += 1
         
-        else: overlaps[(x, y)] = 1
-
 print(count)
