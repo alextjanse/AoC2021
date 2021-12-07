@@ -1,23 +1,34 @@
 import math
+from typing import Counter
 
 f = open('./input/7.txt')
 
+"""
+I was on a Maths™ roll and I wanted to make the x_min MATHEMATICALLY
+the minimum, you can never be sure enough! Maybe M IS your minimum
+value!
+"""
 x_min = math.inf
 x_max = 0
-numbers = []
+
+x_coords = Counter()
 
 for s in f.readline().split(','):
     x = int(s)
-    numbers.append(x)
+    x_coords[x] += 1
 
     x_min = min(x, x_min)
     x_max = max(x, x_max)
 
-min_value = math.inf
+"""
+Python one-liners! You gotta love them!
 
-for x in range(x_min, x_max):
-    x_value = sum(map(lambda n: abs(x - n), numbers))
-    if x_value < min_value:
-        min_value = x_value
+In Maths™: min_{x_min \le i < x_max} sum_{x \in X} abs(x - i)
 
-print(min_value)
+Since x_coords is a Counter, we can iterate over it and get
+the indices (x-coordinates), and the counter value being the
+amount of crab submarines on that x-coordinate. that's why
+we have that weird abs(x - i) * x_coords[i].
+"""
+
+print(min(map(lambda x: sum(map(lambda i: abs(x - i) * x_coords[i], x_coords)), range(x_min, x_max))))
