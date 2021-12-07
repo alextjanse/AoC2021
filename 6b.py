@@ -1,16 +1,13 @@
 f = open('./input/6.txt')
 
-fishes = [0] * 7
+fishes = [0] * 9
 
 for i in map(int, f.readline().split(',')):
     fishes[i] += 1
 
 days = 256
 
-babies = [0] * 9
+# Explanation in 6a.py
+for day in range(days): fishes[(day + 7) % 9] += fishes[day % 9]
 
-for day in range(days):    
-    fishes[day % 7] += babies[day % 9]
-    babies[day % 9] = fishes[day % 7]
-
-print(sum(fishes) + sum(babies))
+print(sum(fishes))
