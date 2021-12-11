@@ -1,15 +1,5 @@
-from typing import Tuple, List
-
-def loop(x_max: int, y_max: int) -> Tuple[int, int]:
-    """
-    Generate the indices of all points in the [0, x_max] x [0, y_max] plane.
-    :param x_max: the exclusive x-bound.
-    :param y_max: the exclusive y-bound.
-    """
-    # First time working with yield!
-    for y in range(y_max):
-        for x in range(x_max):
-            yield x, y
+from typing import List
+import utils
 
 def bingo(markCard: List[List[bool]], x: int, y: int) -> bool:
     """
@@ -32,7 +22,7 @@ def score(numberCard: List[List[int]], markCard: List[List[bool]], number: int) 
     :param markCard: the bingo card with the marked off cells.
     :param number: the current called number.
     """
-    return number * sum(map(lambda i: 0 if markCard[i[1]][i[0]] else numberCard[i[1]][i[0]], loop(5, 5)))
+    return number * sum(map(lambda i: 0 if markCard[i[1]][i[0]] else numberCard[i[1]][i[0]], utils.loop(5, 5)))
 
 if __name__== '__main__':
     # Damn, whole main loop and all. It's almost like a real program!
@@ -70,7 +60,7 @@ if __name__== '__main__':
         # Call all the numbers one by one
         for (numberCard, markCard) in cards:
             # Check the number on every card
-            for x,y in loop(5, 5):
+            for x,y in utils.loop(5, 5):
                 if numberCard[y][x] == number:
                     # Check off the number
                     markCard[y][x] = True
