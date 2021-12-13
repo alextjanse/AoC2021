@@ -1,16 +1,37 @@
 from typing import List
 
-f = open('./input/3.txt')
+bit_strings = [line.rstrip() for line in open('./input/3.txt')]
+n = len(bit_strings)
+bits = len(bit_strings[0])
 
-bit_strings = []
+################################
+#            PART 1            #
+################################
 
-bit_string = f.readline()
-bits = len(bit_string) - 1 # again, fuck \n
+bit_counters = [0] * bits
 
-while bit_string != '':
-    bit_strings.append(bit_string)
-    
-    bit_string = f.readline()
+for bit_string in bit_strings:
+    for i in range(bits):
+        if bit_string[i] == '1':
+            bit_counters[i] += 1
+
+gamma = 0
+
+for i in range(bits):
+    gamma *= 2
+    if bit_counters[i] > n // 2: gamma += 1
+
+"""
+No need to keep track of epsilon as well, they're just the bits
+flipped.
+"""
+epsilon = 2**bits - 1 - gamma
+
+print('part 1: {0}'.format(gamma * epsilon))
+
+################################
+#            PART 2            #
+################################
 
 def filterList(bit_strings: List[str], bit_position: int, most: bool) -> List[str]:
     """
@@ -52,4 +73,4 @@ while len(co2List) > 1:
 oxygen = int(oxygenList[0], 2)
 co2 = int(co2List[0], 2)
 
-print(oxygen * co2)
+print('part 2: {0}'.format(oxygen * co2))
