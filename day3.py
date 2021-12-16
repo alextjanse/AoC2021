@@ -4,9 +4,9 @@ bit_strings = [line.rstrip() for line in open('./input/3.txt')]
 n = len(bit_strings)
 bits = len(bit_strings[0])
 
-################################
-#            PART 1            #
-################################
+###############
+print('part 1')
+###############
 
 bit_counters = [0] * bits
 
@@ -27,11 +27,11 @@ flipped.
 """
 epsilon = 2**bits - 1 - gamma
 
-print('part 1: {0}'.format(gamma * epsilon))
+print(gamma * epsilon)
 
-################################
-#            PART 2            #
-################################
+###############
+print('part 2')
+###############
 
 def filterList(bit_strings: List[str], bit_position: int, most: bool) -> List[str]:
     """
@@ -73,4 +73,4 @@ while len(co2List) > 1:
 oxygen = int(oxygenList[0], 2)
 co2 = int(co2List[0], 2)
 
-print('part 2: {0}'.format(oxygen * co2))
+print(oxygen * co2)

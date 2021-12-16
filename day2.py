@@ -1,6 +1,6 @@
-################################
-#            PART 1            #
-################################
+###############
+print('part 1')
+###############
 
 x = 0
 y = 0
@@ -13,11 +13,11 @@ for line in open('./input/2.txt'):
     elif command == 'down': y += i
     elif command == 'up': y -= i
 
-print('part 1: {0}'.format(x * y))
+print(x * y)
 
-################################
-#            PART 2            #
-################################
+###############
+print('part 2')
+###############
 
 x = 0
 y = 0
@@ -33,4 +33,4 @@ for line in open('./input/2.txt'):
     elif command == 'up': aim -= i
     elif command == 'down': aim += i
 
-print('part 2: {0}'.format(x * y))
+print(x * y)

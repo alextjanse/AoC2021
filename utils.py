@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Any, Tuple, List
 
 def loop(x_max: int, y_max: int) -> Tuple[int, int]:
     """
