@@ -17,7 +17,7 @@ extra step into account, so y_dir = -(y_min - 1).
 
 y_dir_max = y_max if y_max > 0 else -y_min - 1
 
-print(sum(i for i in range(y_dir_max + 1)))
+print((y_dir_max ** 2 + y_dir_max) // 2)
 
 ###############
 print('part 2')

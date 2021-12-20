@@ -25,7 +25,7 @@ def score(numberCard: List[List[int]], markCard: List[List[bool]], number: int) 
     return number * sum(map(lambda i: 0 if markCard[i[1]][i[0]] else numberCard[i[1]][i[0]], utils.loop(5, 5)))
 
 if __name__== '__main__':
-    # Damn, whole main loop and all. It's almost like a real program!
+    # Damn, whole main block and all. It's almost like a real program!
     
     f = open('./input/4.txt')
 
